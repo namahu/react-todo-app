@@ -7,7 +7,7 @@ import Form from './components/Form'
 
 import './App.css'
 
-type FetchedTask = Omit<TaskProps, "deleteTask" | "toggleTaskCompleted">[];
+type FetchedTask = Omit<TaskProps, "updateTask">[];
 
 const App: React.FC = () => {
 
@@ -38,19 +38,28 @@ const App: React.FC = () => {
     setTasks([...tasks, newTask]);
   };
 
-  const toggleTaskCompleted = (id: string) => {
+  const updateTask = (
+    id: string,
+    updateProperty: {
+      key: string,
+      value: string | boolean
+    }
+  ) => {
     const updatedTasks = tasks.map(task => {
       if (task.id === id) {
-        return { ...task, completed: !task.done };
+        return { ...task, [updateProperty.key]: updateProperty.value };
       }
       return task;
     });
     setTasks(updatedTasks);
-  };
 
-  const deleteTask = (id: string) => {
-    const remainingTasks = tasks.filter(task => task.id !== id);
-    setTasks(remainingTasks);
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ [updateProperty.key]: updateProperty.value })
+    });
   };
 
   return (
@@ -60,8 +69,7 @@ const App: React.FC = () => {
         <Form onSubmit={addTask} />
         <TaskList
           tasks={tasks}
-          toggleTaskCompleted={toggleTaskCompleted}
-          deleteTask={deleteTask}
+          updateTask={updateTask}
         />
       </main>
     </>

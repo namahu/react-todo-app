@@ -2,16 +2,17 @@ import React from "react";
 
 import Task, { TaskProps } from "../Task/Task";
 
-type FetchedTask = Omit<TaskProps, "deleteTask" | "toggleTaskCompleted">[];
+type FetchedTask = Omit<TaskProps, "updateTask">[];
 
 
 const TaskList: React.FC<{
     tasks: FetchedTask,
-    toggleTaskCompleted: (id: string) => void,
-    deleteTask: (id: string) => void
+    updateTask: TaskProps["updateTask"],
 }> = (props) => {
 
-    const taskList = props.tasks?.map(task => {
+    const taskList = props.tasks?.filter(task => {
+        return !task.deleted && !task.done;
+    }).map(task => {
         return (
             <Task
                 key={task.id}
@@ -19,8 +20,7 @@ const TaskList: React.FC<{
                 title={task.title}
                 done={task.done}
                 deleted={task.deleted}
-                toggleTaskCompleted={() => { props.toggleTaskCompleted(task.id) }}
-                deleteTask={() => { props.deleteTask(task.id) }}
+                updateTask={props.updateTask}
             />
         );
     });
