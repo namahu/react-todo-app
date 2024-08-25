@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 
 export type TaskProps = {
-    title: string;
-    done: boolean;
-    id: string;
-    deleted: boolean;
+    task: {
+        title: string;
+        startDate: string;
+        dueDate: string;
+        done: boolean;
+        id: string;
+        deleted: boolean;
+    };
     updateTask: (
         id: string, updateProperty: {
             key: string,
@@ -19,7 +23,7 @@ const Task: React.FC<TaskProps> = (props) => {
     const [newTitle, setNewTitle] = useState("");
 
     const handleEdit = () => {
-        props.updateTask(props.id, { key: "title", value: newTitle });
+        props.updateTask(props.task.id, { key: "title", value: newTitle });
         setNewTitle("");
         setIsEditing(!isEditing);
     };
@@ -28,7 +32,7 @@ const Task: React.FC<TaskProps> = (props) => {
         <div>
             <input
                 type="text"
-                defaultValue={props.title}
+                defaultValue={props.task.title}
                 onChange={(event) => setNewTitle(event.target.value)}
             />
             <button onClick={() => handleEdit()}>Save</button>
@@ -40,13 +44,15 @@ const Task: React.FC<TaskProps> = (props) => {
         <li >
             <input
                 type="checkbox"
-                defaultChecked={props.done}
-                id={props.id}
-                onChange={() => props.updateTask(props.id, { key: "done", value: !props.done })}
+                defaultChecked={props.task.done}
+                id={props.task.id}
+                onChange={() => props.updateTask(props.task.id, { key: "done", value: !props.task.done })}
             />
-            <span>{props.title}</span>
+            <span>{props.task.title}</span>
+            <span>{props.task.startDate}</span>
+            <span>{props.task.dueDate}</span>
             <button onClick={() => setIsEditing(!isEditing)}>Edit</button>
-            <button onClick={() => props.updateTask(props.id, { key: "deleted", value: true })}>Delete</button>
+            <button onClick={() => props.updateTask(props.task.id, { key: "deleted", value: true })}>Delete</button>
         </li>
     );
 

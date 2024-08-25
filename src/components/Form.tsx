@@ -1,27 +1,39 @@
 import React, { useState } from "react";
 
 type FormProps = {
-    onSubmit: (taskName: string) => void;
+    onSubmit: (taskData: NewTask) => void;
+};
+
+export type NewTask = {
+    title: string;
+    startDate: string;
+    dueDate: string;
 };
 
 
 const Form: React.FC<FormProps> = (props) => {
-    const [name, setName] = useState("");
+    const initialTaskData = {
+        title: "",
+        startDate: "",
+        dueDate: "",
+    };
+    const [taskData, setTaskData] = useState<NewTask>(initialTaskData);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (name === "") {
-            window.alert("Task name is required");
+        if (taskData.title === "") {
+            window.alert("Task title is required");
             return;
         }
 
-        props.onSubmit(name);
-        setName("");
+        props.onSubmit(taskData);
+        setTaskData(initialTaskData);
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
+        const { name, value } = event.target;
+        setTaskData({ ...taskData, [name]: value });
     };
 
     return (
@@ -29,10 +41,32 @@ const Form: React.FC<FormProps> = (props) => {
             <h2>Create Task</h2>
             <form onSubmit={handleSubmit}>
                 <div className="formItem">
+                    <label htmlFor="title">Task Title</label>
                     <input
                         type="text"
-                        name="taskName"
-                        value={name}
+                        id="title"
+                        name="title"
+                        value={taskData.title}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="formItem">
+                    <label htmlFor="startDate">Start date</label>
+                    <input
+                        type="datetime-local"
+                        id="startDate"
+                        name="startDate"
+                        value={taskData.startDate}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="formItem">
+                    <label htmlFor="dueDate">Due date</label>
+                    <input
+                        type="datetime-local"
+                        id="dueDate"
+                        name="dueDate"
+                        value={taskData.dueDate}
                         onChange={handleChange}
                     />
                 </div>

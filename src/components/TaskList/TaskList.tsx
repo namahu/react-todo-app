@@ -2,7 +2,7 @@ import React from "react";
 
 import Task, { TaskProps } from "../Task/Task";
 
-type FetchedTask = Omit<TaskProps, "updateTask">[];
+type FetchedTask = Omit<TaskProps["task"], "updateTask">[];
 
 
 const TaskList: React.FC<{
@@ -16,10 +16,7 @@ const TaskList: React.FC<{
         return (
             <Task
                 key={task.id}
-                id={task.id}
-                title={task.title}
-                done={task.done}
-                deleted={task.deleted}
+                task={task}
                 updateTask={props.updateTask}
             />
         );

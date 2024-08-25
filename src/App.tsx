@@ -3,11 +3,11 @@ import { nanoid } from "nanoid";
 
 import TaskList from './components/TaskList/TaskList';
 import { TaskProps } from './components/Task/Task';
-import Form from './components/Form'
+import Form, { NewTask } from './components/Form'
 
 import './App.css'
 
-type FetchedTask = Omit<TaskProps, "updateTask">[];
+type FetchedTask = Omit<TaskProps["task"], "updateTask">[];
 
 const App: React.FC = () => {
 
@@ -22,8 +22,15 @@ const App: React.FC = () => {
     getTasks();
   }, []);
 
-  const addTask = async (taskName: string) => {
-    const newTask = { id: `todo-${nanoid()}`, title: taskName, done: false, deleted: false };
+  const addTask = async (taskData: NewTask) => {
+    const newTask = {
+      id: `todo-${nanoid()}`,
+      title: taskData.title,
+      startDate: taskData.startDate,
+      dueDate: taskData.dueDate,
+      done: false,
+      deleted: false
+    };
     const response = await fetch("http://localhost:3000/tasks", {
       method: "POST",
       headers: {
