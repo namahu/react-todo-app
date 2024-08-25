@@ -1,0 +1,22 @@
+#root {
+  width: 640px;
+  margin: auto;
+}
+
+li {
+  list-style-type: none;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+main div {
+  background-color: aliceblue;
+  border-radius: 8px;
+  padding: 8px;
+}
