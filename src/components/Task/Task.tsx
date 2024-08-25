@@ -1,6 +1,6 @@
 import React from "react";
 
-export type TodoProps = {
+export type TaskProps = {
     title: string;
     done: boolean;
     id: string;
@@ -9,7 +9,7 @@ export type TodoProps = {
     deleteTask: (id: string) => void;
 }
 
-const Todo: React.FC<TodoProps> = (props) => {
+const Task: React.FC<TaskProps> = (props) => {
     return (
         <li>
             <input
@@ -24,4 +24,4 @@ const Todo: React.FC<TodoProps> = (props) => {
     );
 };
 
-export default Todo;
+export default Task;

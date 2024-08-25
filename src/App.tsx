@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { nanoid } from "nanoid";
-import Todo, { TodoProps } from './components/Todo'
+
+import TaskList from './components/TaskList/TaskList';
+import { TaskProps } from './components/Task/Task';
 import Form from './components/Form'
 
 import './App.css'
 
-type AppProps = {
-  tasks: Omit<TodoProps, "deleteTask" | "toggleTaskCompleted">[];
-};
+type FetchedTask = Omit<TaskProps, "deleteTask" | "toggleTaskCompleted">[];
 
-type FetchedTask = Omit<TodoProps, "deleteTask" | "toggleTaskCompleted">[];
+const App: React.FC = () => {
 
-const App: React.FC<AppProps> = (props) => {
-
-  const [tasks, setTasks] = useState<FetchedTask>(props.tasks);
+  const [tasks, setTasks] = useState<FetchedTask>([]);
 
   useEffect(() => {
     const getTasks = async () => {
@@ -24,8 +22,19 @@ const App: React.FC<AppProps> = (props) => {
     getTasks();
   }, []);
 
-  const addTask = (taskName: string) => {
+  const addTask = async (taskName: string) => {
     const newTask = { id: `todo-${nanoid()}`, title: taskName, done: false, deleted: false };
+    const response = await fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newTask)
+    });
+    if (!response.ok) {
+      window.alert("Failed to add task");
+      return;
+    }
     setTasks([...tasks, newTask]);
   };
 
@@ -44,34 +53,16 @@ const App: React.FC<AppProps> = (props) => {
     setTasks(remainingTasks);
   };
 
-  const taskList = tasks?.map(task => {
-    return (
-      <Todo
-        title={task.title}
-        done={task.done}
-        id={task.id}
-        deleted={task.deleted}
-        key={task.id}
-        toggleTaskCompleted={toggleTaskCompleted}
-        deleteTask={deleteTask}
-      />
-    );
-  });
-
-  const taskCount = tasks?.filter(task => !task.done).length;
-  const headingText = taskCount <= 1 ? "Task" : "Tasks";
-
   return (
     <>
       <h1 className="title">Todo App sample</h1>
       <main>
         <Form onSubmit={addTask} />
-        <div className="taskListContainer">
-          <h2>Task List ({taskCount} {headingText} remaining )</h2>
-          <ul>
-            {taskList}
-          </ul>
-        </div>
+        <TaskList
+          tasks={tasks}
+          toggleTaskCompleted={toggleTaskCompleted}
+          deleteTask={deleteTask}
+        />
       </main>
     </>
   )
