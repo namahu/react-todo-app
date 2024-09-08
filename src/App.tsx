@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { nanoid } from "nanoid";
 
+import { Sidebar } from './components/Sidebar/Sidebar';
 import TaskList from './components/TaskList/TaskList';
 import { TaskProps } from './components/Task/Task';
 import Form, { NewTask } from './components/Form'
@@ -71,8 +72,9 @@ const App: React.FC = () => {
 
   return (
     <>
-      <h1 className="title">Todo App sample</h1>
+      <Sidebar />
       <main>
+        <h1 className="title">Todo App sample</h1>
         <Form onSubmit={addTask} />
         <TaskList
           tasks={tasks}

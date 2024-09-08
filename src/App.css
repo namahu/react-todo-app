@@ -1,6 +1,7 @@
 #root {
-  width: 640px;
-  margin: auto;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 10vw 1fr;
 }
 
 li {
