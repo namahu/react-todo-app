@@ -1,8 +1,7 @@
 import React from "react";
-
-import { Task } from "./Task";
 import { useAllTasks } from "../api/get-tasks";
 
+import styles from "../styles/task.module.css";
 
 export const TaskList: React.FC = () => {
 
@@ -18,11 +17,24 @@ export const TaskList: React.FC = () => {
     return (
         <div className="taskListContainer">
             <h2>Task List({taskCount} {headingText} remaining)</h2>
-            <ul>
-                {tasks.map((task, index) => (
-                    <Task key={index} task={task} />
+            <div>
+                {tasks.map((task) => (
+                    <div key={task.id} className={styles["task-card"]}>
+                        <div className={styles["task-title"]}>
+                            <input
+                                type="checkbox"
+                                defaultChecked={task.done}
+                                id={task.id}
+                            />
+                            <label htmlFor={task.id}>{task.title}</label>
+                        </div>
+                        <div className={styles["task-attributes"]}>
+                            <span>{task.startDate}</span>
+                            <span>{task.dueDate}</span>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

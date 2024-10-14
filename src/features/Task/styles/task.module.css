@@ -1,0 +1,28 @@
+.task-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    background-color: #fffffb;
+}
+
+.task-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    background-color: transparent;
+}
+
+.task-title input[type="checkbox"] {
+    border-radius: 100px;
+    height: 32px;
+    width: 32px;
+}
+
+.task-attributes {
+    display: flex;
+    ;
+}
