@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { nanoid } from "nanoid";
 
 import { Sidebar } from './components/Sidebar/Sidebar';
-import TaskList from './components/TaskList/TaskList';
-import { TaskProps } from './components/Task/Task';
+import { TaskList } from "@/features/Task/components/TaskList";
+import { TaskProps } from './features/Task/components/Task';
 import Form, { NewTask } from './components/Form'
 
 import './App.css'

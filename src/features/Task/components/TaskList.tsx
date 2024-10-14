@@ -1,11 +1,11 @@
 import React from "react";
 
-import Task, { TaskProps } from "../Task/Task";
+import { Task, TaskProps } from "./Task";
 
 type FetchedTask = Omit<TaskProps["task"], "updateTask">[];
 
 
-const TaskList: React.FC<{
+export const TaskList: React.FC<{
     tasks: FetchedTask,
     updateTask: TaskProps["updateTask"],
 }> = (props) => {
@@ -34,5 +34,3 @@ const TaskList: React.FC<{
         </div>
     );
 };
-
-export default TaskList;

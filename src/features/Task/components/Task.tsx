@@ -17,7 +17,7 @@ export type TaskProps = {
     ) => void;
 }
 
-const Task: React.FC<TaskProps> = (props) => {
+export const Task: React.FC<TaskProps> = (props) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState("");
@@ -58,5 +58,3 @@ const Task: React.FC<TaskProps> = (props) => {
 
     return isEditing ? editingVew : defaultView;
 };
-
-export default Task;
