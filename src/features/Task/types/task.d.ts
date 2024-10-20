@@ -9,8 +9,7 @@ declare type TaskProperties = {
 
 declare type Task = {
     title: string;
-    startDate: string;
-    dueDate: string;
+    description: string;
     done: boolean;
     id: string;
     deleted: boolean;
