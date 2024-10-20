@@ -1,8 +1,25 @@
+.taskListContainer {
+    height: 100vh;
+    background-color: #fffffb;
+}
+
+.taskListContainer>button {
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #646cff;
+    color: #fffffb;
+    cursor: pointer;
+}
+
 .task-card {
     display: flex;
     flex-direction: column;
     padding: 1rem;
     margin-top: 1rem;
+    border: 2px solid #657565;
     border-radius: 0.5rem;
     background-color: #fffffb;
 }
@@ -22,7 +39,11 @@
     width: 32px;
 }
 
-.task-attributes {
+.task-properties {
     display: flex;
-    ;
+    flex-direction: row;
+}
+
+.task-properties span:not(:nth-child(1)) {
+    margin-left: 16px;
 }

@@ -1,16 +1,26 @@
 import { api } from "@/lib/api-client";
 import { useEffect, useState } from "react";
 
+export type Task = {
+    title: string;
+    startDate: string;
+    dueDate: string;
+    done: boolean;
+    id: string;
+    deleted: boolean;
+    properties: {
+        startDate: string;
+        dueDate: string;
+        project: {
+            id: string;
+            name: string;
+        };
+    };
+};
+
 export const useAllTasks = () => {
     const [ tasks, setTasks ] = useState<{
-        tasks: {
-            title: string;
-            startDate: string;
-            dueDate: string;
-            done: boolean;
-            id: string;
-            deleted: boolean;
-        }[],
+        tasks: Task[],
         isLoading: boolean;
     }>({ tasks: [], isLoading: true });
 

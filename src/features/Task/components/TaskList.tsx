@@ -1,7 +1,22 @@
 import React from "react";
+
 import { useAllTasks } from "../api/get-tasks";
+import { CreateTask } from "./CreateTask";
 
 import styles from "../styles/task.module.css";
+
+const createTaskPropertiesContents = (properties: TaskProperties) => {
+    return Object.keys(properties).map((propertyKey, index) => {
+        const value = properties[propertyKey as keyof typeof properties];
+        if (value === null) {
+            return null;
+        }
+        if (typeof value === "object" && value !== null) {
+            return <span id={index.toString()}>{value.name}</span>;
+        }
+        return <span id={index.toString()}>{value}</span>;
+    });
+};
 
 export const TaskList: React.FC = () => {
 
@@ -11,24 +26,21 @@ export const TaskList: React.FC = () => {
         return <div>Loading...</div>;
     }
 
-    const taskCount = tasks?.filter(task => !task.done).length;
-    const headingText = taskCount <= 1 ? "Task" : "Tasks";
-
     return (
-        <div className="taskListContainer">
-            <h2>Task List({taskCount} {headingText} remaining)</h2>
-            <div>
+        <div className={styles.taskListContainer}>
+            <CreateTask />
+            <div className={styles.taskList}>
                 {tasks.map((task) => (
                     <div key={task.id} className={styles["task-card"]}>
                         <div className={styles["task-title"]}>
                             <input
                                 type="checkbox"
                                 defaultChecked={task.done}
-                                id={task.id}
                             />
-                            <label htmlFor={task.id}>{task.title}</label>
+                            <label>{task.title}</label>
                         </div>
-                        <div className={styles["task-attributes"]}>
+                        <div className={styles["task-properties"]}>
+                            {createTaskPropertiesContents(task.properties)}
                             <span>{task.startDate}</span>
                             <span>{task.dueDate}</span>
                         </div>

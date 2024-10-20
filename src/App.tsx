@@ -71,7 +71,6 @@ const App: React.FC = () => {
     <>
       <Sidebar />
       <main>
-        <h1 className="title">Todo App sample</h1>
         {/* <Form onSubmit={addTask} /> */}
         <TaskList />
       </main>
