@@ -4,6 +4,8 @@ import { nanoid } from "nanoid"
 import { api } from "@/lib/api-client";
 import { useAllProjects } from "@/features/Project/api/get-projects";
 
+import styles from "../styles/createTask.module.css";
+
 const initialTask = {
     title: "",
     description: "",
@@ -82,29 +84,29 @@ export const CreateTask: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={styles.createTaskContainer}>
             <form onSubmit={handleOnSubmit} className="taskCreateForm">
-                <div className="formItem">
+                <div className={styles.formItem}>
                     <input type="text" name="title" placeholder="Task name" value={newTask.title}
                         onChange={handleOnChange}
                     />
                 </div>
-                <div className="formItem">
+                <div className={styles.formItem}>
                     <input type="text" name="description" placeholder="Description" value={newTask.description}
                         onChange={handleOnChange}
                     />
                 </div>
-                <div className="formItem">
+                <div className={styles.formItem}>
                     <input type="date" name="startDate" placeholder="Task name" value={newTask.properties.startDate}
                         onChange={handleOnChange}
                     />
                 </div>
-                <div className="formItem">
+                <div className={styles.formItem}>
                     <input type="date" name="dueDate" placeholder="Task name" value={newTask.properties.dueDate}
                         onChange={handleOnChange}
                     />
                 </div>
-                <div className="formItem">
+                <div className={styles.formItem}>
                     <select name="project" onChange={handleOnChange}>
                         {isLoading
                             ? <option>loading...</option>
