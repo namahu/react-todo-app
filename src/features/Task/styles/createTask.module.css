@@ -9,25 +9,34 @@
 
     background: none;
 
-    form {
-        width: 64vw;
-        height: 56vh;
+    .taskCreateForm {
+        display: grid;
+        grid-template-columns: 1fr 30%;
+        grid-template-rows: 1fr 64px;
+        grid-template-areas:
+            "mainProps optionProps"
+            "button button";
+
+        width: 56vw;
+        height: 40vh;
         margin: auto;
         border: 2px solid #657565;
         border-radius: 16px;
         padding: 16px;
         background-color: #fffffb;
 
+        .mainPropertiesContainer {
+            grid-area: mainProps;
+        }
 
-        .formItem {
+        .optionPropertiesContainer {
+            grid-area: optionProps;
+        }
+
+        div {
             display: flex;
             flex-direction: column;
-            margin-bottom: 1rem;
-
-            label {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
+            gap: 1rem;
 
             input {
                 width: 100%;
@@ -35,17 +44,46 @@
                 padding: 8px;
                 background: none;
                 border: none;
+                font-size: 2rem;
             }
+
+            textarea {
+                padding: 0.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        .formItem {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-size: 1.5rem;
+            }
+
 
             input:focus {
                 outline: none;
             }
 
-            textarea {
-                padding: 0.5rem;
+            select {
+                width: 100%;
+                height: auto;
+                padding: 8px;
+                background: none;
+                border: none;
                 font-size: 1.5rem;
             }
 
+
+        }
+
+        .formButtonContainer {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            grid-area: button;
         }
 
         button {

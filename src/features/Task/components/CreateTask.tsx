@@ -31,7 +31,7 @@ export const CreateTask: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOnChange = (
-        event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value, nodeName, attributes } = event.target;
         console.log({ event, name, value, nodeName });
@@ -85,40 +85,40 @@ export const CreateTask: React.FC = () => {
 
     return (
         <div className={styles.createTaskContainer}>
-            <form onSubmit={handleOnSubmit} className="taskCreateForm">
-                <div className={styles.formItem}>
+            <form onSubmit={handleOnSubmit} className={styles.taskCreateForm}>
+                <div className={styles.mainPropertiesContainer}>
                     <input type="text" name="title" placeholder="Task name" value={newTask.title}
                         onChange={handleOnChange}
                     />
-                </div>
-                <div className={styles.formItem}>
-                    <input type="text" name="description" placeholder="Description" value={newTask.description}
+                    <textarea name="description" placeholder="Description" value={newTask.description}
                         onChange={handleOnChange}
                     />
                 </div>
-                <div className={styles.formItem}>
-                    <input type="date" name="startDate" placeholder="Task name" value={newTask.properties.startDate}
-                        onChange={handleOnChange}
-                    />
+
+                <div className={styles.optionPropertiesContainer}>
+                    <div className={styles.formItem}>
+                        <label>Due Date</label>
+                        <input type="date" name="dueDate" placeholder="Task name" value={newTask.properties.dueDate}
+                            onChange={handleOnChange}
+                        />
+                    </div>
+                    <div className={styles.formItem}>
+                        <label>Project</label>
+                        <select name="project" onChange={handleOnChange}>
+                            {isLoading
+                                ? <option>loading...</option>
+                                : projects.map((project) => (
+                                    <option key={project.id} value={project.id}>
+                                        {project.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
                 </div>
-                <div className={styles.formItem}>
-                    <input type="date" name="dueDate" placeholder="Task name" value={newTask.properties.dueDate}
-                        onChange={handleOnChange}
-                    />
+                <div className={styles.formButtonContainer}>
+                    <button type="button" onClick={() => setIsOpen(!isOpen)}>Cancel</button>
+                    <button type="submit">Add Task</button>
                 </div>
-                <div className={styles.formItem}>
-                    <select name="project" onChange={handleOnChange}>
-                        {isLoading
-                            ? <option>loading...</option>
-                            : projects.map((project) => (
-                                <option key={project.id} value={project.id}>
-                                    {project.name}
-                                </option>
-                            ))}
-                    </select>
-                </div>
-                <button type="button" onClick={() => setIsOpen(!isOpen)}>Cancel</button>
-                <button type="submit">Add Task</button>
             </form>
         </div>
     );
