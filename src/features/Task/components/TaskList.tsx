@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useAllTasks } from "../api/get-tasks";
+import { useUpdateTask } from "../api/update-task";
 import { CreateTask } from "./CreateTask";
 
 import styles from "../styles/task.module.css";
@@ -22,6 +23,8 @@ export const TaskList: React.FC = () => {
 
     const { tasks, isLoading } = useAllTasks();
 
+    const updateTask = useUpdateTask;
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -30,12 +33,15 @@ export const TaskList: React.FC = () => {
         <div className={styles.taskListContainer}>
             <CreateTask />
             <div className={styles.taskList}>
-                {tasks.map((task) => (
+                {tasks.filter(task => task.done === false).map((task) => (
                     <div key={task.id} className={styles["task-card"]}>
                         <div className={styles["task-title"]}>
                             <input
                                 type="checkbox"
                                 defaultChecked={task.done}
+                                onChange={(e) => {
+                                    updateTask(task.id, { done: e.target.checked });
+                                }}
                             />
                             <label>{task.title}</label>
                         </div>

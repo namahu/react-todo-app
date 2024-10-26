@@ -17,8 +17,8 @@ export const api = {
         });
         return await response.json();
     },
-    updateTask: async (id: string, updateProperty: { key: string, value: string | boolean }) => {
-        const response = await fetch(`http://localhost:3001/tasks/${id}`, {
+    update: async (endpoint: string, id: string, updateProperty: { [key: string]: string | boolean }) => {
+        const response = await fetch(`${baseUrl}${endpoint}/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -26,5 +26,5 @@ export const api = {
             body: JSON.stringify(updateProperty)
         });
         return await response.json();
-    }
+    },
 };
