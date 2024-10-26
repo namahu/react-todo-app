@@ -49,7 +49,10 @@
 
             textarea {
                 padding: 0.5rem;
-                font-size: 1rem;
+                font-size: 1.5rem;
+                background: none;
+                resize: vertical;
+                border: none;
             }
         }
 
@@ -84,10 +87,16 @@
             justify-content: flex-end;
 
             grid-area: button;
-        }
 
-        button {
-            margin-right: 32px;
+            .button_cancel {
+                background-color: #ff0000;
+                color: #ffffff;
+            }
+
+            .button_submit {
+                background-color: #0000ff;
+                color: #fffffb;
+            }
         }
     }
 }

@@ -34,7 +34,6 @@ export const CreateTask: React.FC = () => {
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value, nodeName, attributes } = event.target;
-        console.log({ event, name, value, nodeName });
         if (nodeName === "SELECT") {
             setNewTask({
                 ...newTask,
@@ -76,8 +75,7 @@ export const CreateTask: React.FC = () => {
         const id = "td-" + nanoid();
         const newTaskWithId = { ...newTask, id };
 
-        const response = await api.post("tasks", newTaskWithId);
-        console.log(response);
+        await api.post("tasks", newTaskWithId);
 
         setNewTask(initialTask);
         setIsOpen(!isOpen);
@@ -116,8 +114,8 @@ export const CreateTask: React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.formButtonContainer}>
-                    <button type="button" onClick={() => setIsOpen(!isOpen)}>Cancel</button>
-                    <button type="submit">Add Task</button>
+                    <button type="button" className={styles.button_cancel} onClick={() => setIsOpen(!isOpen)}>Cancel</button>
+                    <button type="submit" className={styles.button_submit}>Add Task</button>
                 </div>
             </form>
         </div>
