@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { nanoid } from "nanoid"
 
-import { api } from "@/lib/api-client";
+import { useCreateTask } from "../api/create-task";
 import { useAllProjects } from "@/features/Project/api/get-projects";
 
 import styles from "../styles/createTask.module.css";
@@ -63,27 +62,17 @@ export const CreateTask: React.FC = () => {
         });
     };
 
+    const handleOnSubmit = useCreateTask;
+
     if (!isOpen) {
         return (
             <button onClick={() => setIsOpen(!isOpen)}>Add Task</button>
         );
     }
 
-    const handleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log(newTask);
-        const id = "td-" + nanoid();
-        const newTaskWithId = { ...newTask, id };
-
-        await api.post("tasks", newTaskWithId);
-
-        setNewTask(initialTask);
-        setIsOpen(!isOpen);
-    };
-
     return (
         <div className={styles.createTaskContainer}>
-            <form onSubmit={handleOnSubmit} className={styles.taskCreateForm}>
+            <form onSubmit={() => { handleOnSubmit(newTask) }} className={styles.taskCreateForm}>
                 <div className={styles.mainPropertiesContainer}>
                     <input type="text" name="title" placeholder="Task name" value={newTask.title}
                         onChange={handleOnChange}
