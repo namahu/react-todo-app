@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { useAllTasks } from "../api/get-tasks";
-import { useUpdateTask } from "../api/update-task";
 import { CreateTask } from "./CreateTask";
 
 import styles from "../styles/task.module.css";
+import { TaskContext } from "../context/task-context";
 
 const createTaskPropertiesContents = (properties: TaskProperties) => {
     return Object.keys(properties).map((propertyKey, index) => {
@@ -20,12 +19,13 @@ const createTaskPropertiesContents = (properties: TaskProperties) => {
 };
 
 export const TaskList: React.FC = () => {
+    const task = useContext(TaskContext);
 
-    const { tasks, isLoading } = useAllTasks();
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event);
+    };
 
-    const updateTask = useUpdateTask;
-
-    if (isLoading) {
+    if (task === null) {
         return <div>Loading...</div>;
     }
 
@@ -33,22 +33,20 @@ export const TaskList: React.FC = () => {
         <div className={styles.taskListContainer}>
             <CreateTask />
             <div className={styles.taskList}>
-                {tasks.filter(task => task.done === false).map((task) => (
+                {task.filter(task => task.done === false).map((task) => (
                     <div key={task.id} className={styles["task-card"]}>
                         <div className={styles["task-title"]}>
                             <input
                                 type="checkbox"
                                 defaultChecked={task.done}
-                                onChange={(e) => {
-                                    updateTask(task.id, { done: e.target.checked });
-                                }}
+                                onChange={handleChange}
                             />
                             <label>{task.title}</label>
                         </div>
-                        <div className={styles["task-properties"]}>
+                        <div key={task.id} className={styles["task-properties"]}>
                             {createTaskPropertiesContents(task.properties)}
-                            <span>{task.startDate}</span>
-                            <span>{task.dueDate}</span>
+                            <span>{task.properties.startDate}</span>
+                            <span>{task.properties.dueDate}</span>
                         </div>
                     </div>
                 ))}

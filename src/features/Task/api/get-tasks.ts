@@ -1,35 +1,20 @@
 import { api } from "@/lib/api-client";
-import { useEffect, useState } from "react";
-
-export type Task = {
-    title: string;
-    startDate: string;
-    dueDate: string;
-    done: boolean;
-    id: string;
-    deleted: boolean;
-    properties: {
-        startDate: string;
-        dueDate: string;
-        project: {
-            id: string;
-            name: string;
-        };
-    };
-};
+import { useEffect, useReducer } from "react";
+import { taskReducer } from "../reducer/task-reducer";
 
 export const useAllTasks = () => {
-    const [ tasks, setTasks ] = useState<{
-        tasks: Task[],
-        isLoading: boolean;
-    }>({ tasks: [], isLoading: true });
+    const [ tasks, dispatch ] = useReducer(taskReducer([]), []);
 
     useEffect(() => {
         let unmounted = false;
 
         const getTasks = async () => {
-            const response = await api.get("tasks");
-            setTasks({ tasks: response, isLoading: false });
+            try {
+                const response = await api.get("tasks");
+                dispatch({ type: "fetch-success", payload: response });
+            } catch (error) {
+                console.error(error);
+            }
         };
 
         if (!unmounted) {
@@ -41,6 +26,6 @@ export const useAllTasks = () => {
         };
 
     }, []);
-    return tasks;
+    return {tasks, dispatch};
 };
 
