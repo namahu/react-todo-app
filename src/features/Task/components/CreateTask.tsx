@@ -38,51 +38,54 @@ export const CreateTask: React.FC = () => {
     }
 
     return (
-        <div className={styles.createTaskContainer}>
-            <form
-                className={styles.taskCreateForm}
-                onSubmit={async (event) => {
-                    event.preventDefault();
-                    await handleOnSubmit(task);
-                    dispatch({ type: "add", payload: task });
-                    setTask(initialTask);
-                    setIsOpen(!isOpen);
-                }}
-            >
-                <div className={styles.mainPropertiesContainer}>
-                    <input type="text" name="title" placeholder="Task name" value={task.title}
-                        onChange={({ target }) => setTask({ ...task, title: target.value })}
-                    />
-                    <textarea name="description" placeholder="Description" value={task.description}
-                        onChange={({ target }) => setTask({ ...task, description: target.value })}
-                    />
-                </div>
-
-                <div className={styles.optionPropertiesContainer}>
-                    <div className={styles.formItem}>
-                        <label>Due Date</label>
-                        <input type="date" name="dueDate" placeholder="Task name" value={task.properties.dueDate}
-                            onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, dueDate: target.value } })}
+        <>
+            <button disabled>Add Task</button>
+            <div className={styles.createTaskContainer}>
+                <form
+                    className={styles.taskCreateForm}
+                    onSubmit={async (event) => {
+                        event.preventDefault();
+                        await handleOnSubmit(task);
+                        dispatch({ type: "add", payload: task });
+                        setTask(initialTask);
+                        setIsOpen(!isOpen);
+                    }}
+                >
+                    <div className={styles.mainPropertiesContainer}>
+                        <input type="text" name="title" placeholder="Task name" value={task.title}
+                            onChange={({ target }) => setTask({ ...task, title: target.value })}
+                        />
+                        <textarea name="description" placeholder="Description" value={task.description}
+                            onChange={({ target }) => setTask({ ...task, description: target.value })}
                         />
                     </div>
-                    <div className={styles.formItem}>
-                        <label>Project</label>
-                        <select name="project" onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, project: { id: target.value, name: target.selectedOptions[0].textContent ?? "" } } })}>
-                            {isLoading
-                                ? <option>loading...</option>
-                                : projects.map((project) => (
-                                    <option key={project.id} value={project.id}>
-                                        {project.name}
-                                    </option>
-                                ))}
-                        </select>
+
+                    <div className={styles.optionPropertiesContainer}>
+                        <div className={styles.formItem}>
+                            <label>Due Date</label>
+                            <input type="date" name="dueDate" placeholder="Task name" value={task.properties.dueDate}
+                                onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, dueDate: target.value } })}
+                            />
+                        </div>
+                        <div className={styles.formItem}>
+                            <label>Project</label>
+                            <select name="project" onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, project: { id: target.value, name: target.selectedOptions[0].textContent ?? "" } } })}>
+                                {isLoading
+                                    ? <option>loading...</option>
+                                    : projects.map((project) => (
+                                        <option key={project.id} value={project.id}>
+                                            {project.name}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.formButtonContainer}>
-                    <button type="button" className={styles.button_cancel} onClick={() => setIsOpen(!isOpen)}>Cancel</button>
-                    <button type="submit" className={styles.button_submit}>Add Task</button>
-                </div>
-            </form>
-        </div>
+                    <div className={styles.formButtonContainer}>
+                        <button type="button" className={styles.button_cancel} onClick={() => setIsOpen(!isOpen)}>Cancel</button>
+                        <button type="submit" className={styles.button_submit}>Add Task</button>
+                    </div>
+                </form>
+            </div>
+        </>
     );
 };
