@@ -1,18 +1,16 @@
 import { api } from "@/lib/api-client";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, Reducer } from "react";
+import { Project, ProjectDispathAction } from "../context/project-context";
 
-export const useAllProjects = () => {
-    const [ projects, setProjects ] = useState<{
-        projects: { id: string, name: string, description: string, deleted: boolean}[],
-        isLoading: boolean;
-    }>({ projects: [], isLoading: true });
+export const useAllProjects = (projectReducer: Reducer<Project[], ProjectDispathAction>) => {
+    const [ projects, dispatch ] = useReducer(projectReducer, []);
 
     useEffect(() => {
         let unmounted = false;
 
         const getProjects = async () => {
             const response = await api.get("projects");
-            setProjects({ projects: response, isLoading: false });
+            dispatch({ type: "FETCH_PROJECTS", payload: response });
         };
 
         if (!unmounted) {
@@ -25,6 +23,6 @@ export const useAllProjects = () => {
 
     }, []);
 
-    return projects;
+    return {projects, dispatch};
     
 };
