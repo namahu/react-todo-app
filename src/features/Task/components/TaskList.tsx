@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { CreateTask } from "./CreateTask";
 
 import styles from "../styles/task.module.css";
-import { TaskContext } from "../context/task-context";
+import { useTaskContext } from "../context/task-context";
+import { useUpdateTask } from "../api/update-task";
 
 const createTaskPropertiesContents = (properties: TaskProperties) => {
     return Object.keys(properties).map((propertyKey, index) => {
@@ -19,13 +20,11 @@ const createTaskPropertiesContents = (properties: TaskProperties) => {
 };
 
 export const TaskList: React.FC = () => {
-    const task = useContext(TaskContext);
+    const { tasks, dispatch } = useTaskContext();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event);
-    };
+    const updateTask = useUpdateTask;
 
-    if (task === null) {
+    if (tasks === null) {
         return <div>Loading...</div>;
     }
 
@@ -33,13 +32,17 @@ export const TaskList: React.FC = () => {
         <div className={styles.taskListContainer}>
             <CreateTask />
             <div className={styles.taskList}>
-                {task.filter(task => task.done === false).map((task) => (
+                {tasks.filter(task => task.done === false).map((task) => (
                     <div key={task.id} className={styles["task-card"]}>
                         <div className={styles["task-title"]}>
                             <input
                                 type="checkbox"
                                 defaultChecked={task.done}
-                                onChange={handleChange}
+                                onChange={async () => {
+                                    const response = await updateTask(task.id, { done: !task.done });
+                                    console.log(response);
+                                    dispatch({ type: "update", payload: { ...task, done: !task.done } });
+                                }}
                             />
                             <label>{task.title}</label>
                         </div>

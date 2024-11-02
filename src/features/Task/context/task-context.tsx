@@ -1,10 +1,10 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 
 import { useAllTasks } from "../api/get-tasks";
 import { TaskDispatchAction } from "../reducer/task-reducer";
 
-export const TaskContext = createContext<Task[] | null>(null);
-export const TaskDispatchContext = createContext<React.Dispatch<TaskDispatchAction>>(() => { });
+const TaskContext = createContext<Task[] | null>(null);
+const TaskDispatchContext = createContext<React.Dispatch<TaskDispatchAction>>(() => { });
 
 export const TaskContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { tasks, dispatch } = useAllTasks();
@@ -18,3 +18,14 @@ export const TaskContextProvider: React.FC<React.PropsWithChildren> = ({ childre
     );
 
 };
+
+export const useTaskContext = () => {
+    const tasks = useContext(TaskContext);
+    const dispatch = useContext(TaskDispatchContext);
+
+    if (tasks === null || dispatch === null) {
+        throw new Error("useTaskContext must be used within a TaskContextProvider");
+    }
+
+    return { tasks, dispatch };
+}
