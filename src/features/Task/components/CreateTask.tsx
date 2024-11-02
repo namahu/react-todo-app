@@ -4,6 +4,7 @@ import { useCreateTask } from "../api/create-task";
 import { useAllProjects } from "@/features/Project/api/get-projects";
 
 import styles from "../styles/createTask.module.css";
+import { useTaskContext } from "../context/task-context";
 
 const initialTask = {
     title: "",
@@ -21,46 +22,12 @@ const initialTask = {
     },
 };
 
-
-
 export const CreateTask: React.FC = () => {
+    const { dispatch } = useTaskContext();
     const { projects, isLoading } = useAllProjects();
 
-    const [newTask, setNewTask] = useState<Task>(initialTask);
+    const [task, setTask] = useState<Task>(initialTask);
     const [isOpen, setIsOpen] = useState(false);
-
-    const handleOnChange = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-    ) => {
-        const { name, value, nodeName, attributes } = event.target;
-        if (nodeName === "SELECT") {
-            setNewTask({
-                ...newTask,
-                properties: {
-                    ...newTask.properties,
-                    project: {
-                        id: value,
-                        name: projects.find((project) => project.id === value)?.name || "",
-                    },
-                },
-            });
-            return;
-        }
-        if (Array.from(attributes).find((attr) => attr.name === "type")?.value.includes("date")) {
-            setNewTask({
-                ...newTask,
-                properties: {
-                    ...newTask.properties,
-                    [name]: value,
-                },
-            });
-            return;
-        }
-        setNewTask({
-            ...newTask,
-            [name]: value,
-        });
-    };
 
     const handleOnSubmit = useCreateTask;
 
@@ -72,26 +39,35 @@ export const CreateTask: React.FC = () => {
 
     return (
         <div className={styles.createTaskContainer}>
-            <form onSubmit={() => { handleOnSubmit(newTask) }} className={styles.taskCreateForm}>
+            <form
+                className={styles.taskCreateForm}
+                onSubmit={async (event) => {
+                    event.preventDefault();
+                    await handleOnSubmit(task);
+                    dispatch({ type: "add", payload: task });
+                    setTask(initialTask);
+                    setIsOpen(!isOpen);
+                }}
+            >
                 <div className={styles.mainPropertiesContainer}>
-                    <input type="text" name="title" placeholder="Task name" value={newTask.title}
-                        onChange={handleOnChange}
+                    <input type="text" name="title" placeholder="Task name" value={task.title}
+                        onChange={({ target }) => setTask({ ...task, title: target.value })}
                     />
-                    <textarea name="description" placeholder="Description" value={newTask.description}
-                        onChange={handleOnChange}
+                    <textarea name="description" placeholder="Description" value={task.description}
+                        onChange={({ target }) => setTask({ ...task, description: target.value })}
                     />
                 </div>
 
                 <div className={styles.optionPropertiesContainer}>
                     <div className={styles.formItem}>
                         <label>Due Date</label>
-                        <input type="date" name="dueDate" placeholder="Task name" value={newTask.properties.dueDate}
-                            onChange={handleOnChange}
+                        <input type="date" name="dueDate" placeholder="Task name" value={task.properties.dueDate}
+                            onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, dueDate: target.value } })}
                         />
                     </div>
                     <div className={styles.formItem}>
                         <label>Project</label>
-                        <select name="project" onChange={handleOnChange}>
+                        <select name="project" onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, project: { id: target.value, name: target.selectedOptions[0].textContent ?? "" } } })}>
                             {isLoading
                                 ? <option>loading...</option>
                                 : projects.map((project) => (
