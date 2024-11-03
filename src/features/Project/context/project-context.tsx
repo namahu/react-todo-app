@@ -7,6 +7,9 @@ export type Project = {
     name: string;
     description: string;
     deleted: boolean;
+    createdAt: number | null;
+    updatedAt: number | null;
+    deletedAt: number | null;
 };
 
 export type ProjectDispathAction =
