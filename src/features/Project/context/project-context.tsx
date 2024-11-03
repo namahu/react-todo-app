@@ -3,7 +3,7 @@ import React, { createContext, Reducer } from "react";
 import { useAllProjects } from "../api/get-projects";
 
 export type Project = {
-    id: number;
+    id: string;
     name: string;
     description: string;
     deleted: boolean;
