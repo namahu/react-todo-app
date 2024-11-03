@@ -7,12 +7,14 @@ import './App.css'
 
 import { TaskContextProvider } from "@/features/Task/context/task-context";
 import { ProjectContextProvider } from './features/Project/context/project-context';
+import { CreateProject } from './features/Project/components/CreateProject';
 
 const App: React.FC = () => {
   return (
     <ProjectContextProvider>
       <Sidebar />
       <main>
+        <CreateProject />
         <TaskContextProvider>
           <TaskList />
         </TaskContextProvider>
