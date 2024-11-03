@@ -6,12 +6,16 @@ import styles from "../styles/createTask.module.css";
 import { useTaskContext } from "../context/task-context";
 import { useProjectContext } from "@/features/Project/context/project-context";
 
-const initialTask = {
+const initialTask: Task = {
     title: "",
     description: "",
     done: false,
     id: "",
     deleted: false,
+    createdAt: null,
+    updatedAt: null,
+    completedAt: null,
+    deletedAt: null,
     properties: {
         startDate: "",
         dueDate: "",
@@ -45,8 +49,9 @@ export const CreateTask: React.FC = () => {
                     className={styles.taskCreateForm}
                     onSubmit={async (event) => {
                         event.preventDefault();
-                        await handleOnSubmit(task);
-                        taskDispatch({ type: "add", payload: task });
+                        const newTask: Task = { ...task, createdAt: new Date().getTime() };
+                        await handleOnSubmit(newTask);
+                        taskDispatch({ type: "add", payload: newTask });
                         setTask(initialTask);
                         setIsOpen(!isOpen);
                     }}
