@@ -19,10 +19,7 @@ const initialTask: Task = {
     properties: {
         startDate: "",
         dueDate: "",
-        project: {
-            id: "",
-            name: "",
-        },
+        project_id: null,
     },
 };
 
@@ -74,7 +71,17 @@ export const CreateTask: React.FC = () => {
                         </div>
                         <div className={styles.formItem}>
                             <label>Project</label>
-                            <select name="project" onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, project: { id: target.value, name: target.selectedOptions[0].textContent ?? "" } } })}>
+                            <select name="project" onChange={
+                                ({ target }) =>
+                                    setTask({
+                                        ...task,
+                                        properties: {
+                                            ...task.properties,
+                                            project_id: target.value === "" ? null : target.value,
+                                        }
+                                    })
+                            }>
+                                <option value="">Select a project</option>
                                 {projects === null
                                     ? <option>loading...</option>
                                     : projects.map((project) => (

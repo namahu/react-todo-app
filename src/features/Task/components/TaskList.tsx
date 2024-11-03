@@ -5,22 +5,28 @@ import { CreateTask } from "./CreateTask";
 import styles from "../styles/task.module.css";
 import { useTaskContext } from "../context/task-context";
 import { useUpdateTask } from "../api/update-task";
+import { Project, useProjectContext } from "@/features/Project/context/project-context";
 
-const createTaskPropertiesContents = (properties: TaskProperties) => {
+const createTaskPropertiesContents = (properties: TaskProperties, projects: Project[]) => {
     return Object.keys(properties).map((propertyKey, index) => {
         const value = properties[propertyKey as keyof typeof properties];
         if (value === null) {
             return null;
         }
-        if (typeof value === "object" && value !== null) {
-            return <span id={index.toString()}>{value.name}</span>;
-        }
+        if (propertyKey === "project_id") {
+            const project = projects.find(project => project.id === value);
+            if (project === undefined) {
+                return null;
+            }
+            return <span key={project.id}>{project.name}</span>;
+        };
         return <span id={index.toString()}>{value}</span>;
     });
 };
 
 export const TaskList: React.FC = () => {
     const { tasks, dispatch } = useTaskContext();
+    const { projects } = useProjectContext();
 
     const updateTask = useUpdateTask;
 
@@ -47,7 +53,7 @@ export const TaskList: React.FC = () => {
                             <label>{task.title}</label>
                         </div>
                         <div key={task.id} className={styles["task-properties"]}>
-                            {createTaskPropertiesContents(task.properties)}
+                            {createTaskPropertiesContents(task.properties, projects)}
                             <span>{task.properties.startDate}</span>
                             <span>{task.properties.dueDate}</span>
                         </div>

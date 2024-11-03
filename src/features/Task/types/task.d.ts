@@ -1,10 +1,7 @@
 declare type TaskProperties = {
     startDate: string;
     dueDate: string;
-    project: {
-        id: string;
-        name: string;
-    };
+    project_id: string | null;
 }
 
 declare type Task = {
