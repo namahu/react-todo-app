@@ -18,6 +18,11 @@ export type ProjectDispathAction =
     | { type: "DELETE_PROJECT"; payload: Project }
     | { type: "FETCH_PROJECTS"; payload: Project[] };
 
+export type ProjectFormState = boolean;
+
+export type ProjectFormDispatchAction =
+    | { type: "FORM_TOGGLE" };
+
 const projectReducer: Reducer<Project[], ProjectDispathAction> = (
     state: Project[], action: ProjectDispathAction
 ): Project[] => {
@@ -40,16 +45,35 @@ const projectReducer: Reducer<Project[], ProjectDispathAction> = (
     }
 }
 
+const projectFormReducer: Reducer<ProjectFormState, ProjectFormDispatchAction> = (
+    state: ProjectFormState, action: ProjectFormDispatchAction
+): ProjectFormState => {
+    switch (action.type) {
+        case "FORM_TOGGLE":
+            return !state;
+        default:
+            throw new Error("Invalid action type: " + (action as ProjectFormDispatchAction).type);
+    }
+};
+
 const ProjectContext = createContext<Project[] | null>(null);
 const ProjectDispatchContext = createContext<React.Dispatch<ProjectDispathAction>>(() => { });
 
+const ProjectFormContext = createContext<ProjectFormState | null>(null);
+const ProjectFormDispatchContext = createContext<React.Dispatch<ProjectFormDispatchAction>>(() => { });
+
 export const ProjectContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { projects, dispatch } = useAllProjects(projectReducer);
+    const [projectFormState, projectFormDispatch] = React.useReducer(projectFormReducer, false);
 
     return (
         <ProjectContext.Provider value={projects}>
             <ProjectDispatchContext.Provider value={dispatch}>
-                {children}
+                <ProjectFormContext.Provider value={projectFormState}>
+                    <ProjectFormDispatchContext.Provider value={projectFormDispatch}>
+                        {children}
+                    </ProjectFormDispatchContext.Provider>
+                </ProjectFormContext.Provider>
             </ProjectDispatchContext.Provider>
         </ProjectContext.Provider>
     );
@@ -64,4 +88,15 @@ export const useProjectContext = () => {
     }
 
     return { projects, projectDispatch };
+};
+
+export const useProjectFormContext = () => {
+    const projectFormState = React.useContext(ProjectFormContext);
+    const projectFormDispatch = React.useContext(ProjectFormDispatchContext);
+
+    if (projectFormState === null || projectFormDispatch === null) {
+        throw new Error("useProjectFormContext must be used within a ProjectContextProvider");
+    }
+
+    return { projectFormState, projectFormDispatch };
 };

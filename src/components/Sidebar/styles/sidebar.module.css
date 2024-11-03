@@ -1,0 +1,15 @@
+.project-list {
+    margin-top: 20px;
+    position: relative;
+
+    .project-list__menu {
+        position: absolute;
+        top: -0.5rem;
+        right: 1.2rem;
+        cursor: pointer;
+
+        span {
+            font-size: 2rem;
+        }
+    }
+}
