@@ -21,11 +21,11 @@ export const TaskContextProvider: React.FC<React.PropsWithChildren> = ({ childre
 
 export const useTaskContext = () => {
     const tasks = useContext(TaskContext);
-    const dispatch = useContext(TaskDispatchContext);
+    const taskDispatch = useContext(TaskDispatchContext);
 
-    if (tasks === null || dispatch === null) {
+    if (tasks === null || taskDispatch === null) {
         throw new Error("useTaskContext must be used within a TaskContextProvider");
     }
 
-    return { tasks, dispatch };
+    return { tasks, taskDispatch };
 }
