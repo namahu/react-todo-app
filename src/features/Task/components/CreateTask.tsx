@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 import { useCreateTask } from "../api/create-task";
-import { useAllProjects } from "@/features/Project/api/get-projects";
 
 import styles from "../styles/createTask.module.css";
 import { useTaskContext } from "../context/task-context";
+import { useProjectContext } from "@/features/Project/context/project-context";
 
 const initialTask = {
     title: "",
@@ -23,8 +23,8 @@ const initialTask = {
 };
 
 export const CreateTask: React.FC = () => {
-    const { dispatch } = useTaskContext();
-    const { projects, isLoading } = useAllProjects();
+    const { taskDispatch } = useTaskContext();
+    const { projects } = useProjectContext();
 
     const [task, setTask] = useState<Task>(initialTask);
     const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +46,7 @@ export const CreateTask: React.FC = () => {
                     onSubmit={async (event) => {
                         event.preventDefault();
                         await handleOnSubmit(task);
-                        dispatch({ type: "add", payload: task });
+                        taskDispatch({ type: "add", payload: task });
                         setTask(initialTask);
                         setIsOpen(!isOpen);
                     }}
@@ -70,7 +70,7 @@ export const CreateTask: React.FC = () => {
                         <div className={styles.formItem}>
                             <label>Project</label>
                             <select name="project" onChange={({ target }) => setTask({ ...task, properties: { ...task.properties, project: { id: target.value, name: target.selectedOptions[0].textContent ?? "" } } })}>
-                                {isLoading
+                                {projects === null
                                     ? <option>loading...</option>
                                     : projects.map((project) => (
                                         <option key={project.id} value={project.id}>
