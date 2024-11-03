@@ -18,9 +18,9 @@ const createTaskPropertiesContents = (properties: TaskProperties, projects: Proj
             if (project === undefined) {
                 return null;
             }
-            return <span key={project.id}>{project.name}</span>;
+            return <span key={index}>{project.name}</span>;
         };
-        return <span id={index.toString()}>{value}</span>;
+        return <span key={index}>{value}</span>;
     });
 };
 
