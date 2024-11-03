@@ -54,11 +54,11 @@ export const ProjectContextProvider: React.FC<React.PropsWithChildren> = ({ chil
 
 export const useProjectContext = () => {
     const projects = React.useContext(ProjectContext);
-    const dispatch = React.useContext(ProjectDispatchContext);
+    const projectDispatch = React.useContext(ProjectDispatchContext);
 
-    if (projects === null || dispatch === null) {
+    if (projects === null || projectDispatch === null) {
         throw new Error("useProjectContext must be used within a ProjectContextProvider");
     }
 
-    return { projects, dispatch };
+    return { projects, projectDispatch };
 };
