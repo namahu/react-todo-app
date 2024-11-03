@@ -25,7 +25,7 @@ const createTaskPropertiesContents = (properties: TaskProperties, projects: Proj
 };
 
 export const TaskList: React.FC = () => {
-    const { tasks, dispatch } = useTaskContext();
+    const { tasks, taskDispatch } = useTaskContext();
     const { projects } = useProjectContext();
 
     const updateTask = useUpdateTask;
@@ -47,7 +47,7 @@ export const TaskList: React.FC = () => {
                                 onChange={async () => {
                                     const response = await updateTask(task.id, { done: !task.done });
                                     console.log(response);
-                                    dispatch({ type: "update", payload: { ...task, done: !task.done } });
+                                    taskDispatch({ type: "update", payload: { ...task, done: !task.done } });
                                 }}
                             />
                             <label>{task.title}</label>
