@@ -1,8 +1,38 @@
-.projectCreate-container {
+.modal-background {
     position: fixed;
-    margin: 4% 40%;
-    background-color: #fffffb;
+    background-color: #3e3e3e70;
     border: 2px solid #657565;
-    border-radius: 8px;
 
+    width: calc(100vw - var(--sidebar-width));
+    height: 100vh;
+
+    .projectCreate-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 4% auto;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        width: 40%;
+        height: 50%;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            width: 72%;
+            margin: 0 auto;
+
+            input,
+            textarea {
+                font-size: 2rem;
+                background: none;
+                background-color: #fffffb;
+                border: none;
+                border-bottom: 1px solid #657565;
+                padding: 8px 16px;
+            }
+        }
+    }
 }

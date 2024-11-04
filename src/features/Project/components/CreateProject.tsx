@@ -28,33 +28,35 @@ export const CreateProject: React.FC = () => {
     }
 
     return (
-        <div className={styles["projectCreate-container"]}>
-            <h2>Create a new project</h2>
-            <form
-                onSubmit={async (event) => {
-                    event.preventDefault();
-                    const newProject: Project = { ...project, createdAt: new Date().getTime() };
-                    await handleOnSubmit(newProject);
-                    projectDispatch({ type: "ADD_PROJECT", payload: newProject });
-                    projectFormDispatch({ type: "FORM_TOGGLE" });
-                    setProject(initialProject);
-                }}
-            >
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Project name"
-                    value={project.name}
-                    onChange={({ target }) => setProject({ ...project, name: target.value })}
-                />
-                <textarea
-                    name="description"
-                    placeholder="Description"
-                    value={project.description}
-                    onChange={({ target }) => setProject({ ...project, description: target.value })}
-                />
-                <button type="submit">Create Project</button>
-            </form>
+        <div className={styles["modal-background"]}>
+            <div className={styles["projectCreate-container"]}>
+                <h2>Create a new project</h2>
+                <form
+                    onSubmit={async (event) => {
+                        event.preventDefault();
+                        const newProject: Project = { ...project, createdAt: new Date().getTime() };
+                        await handleOnSubmit(newProject);
+                        projectDispatch({ type: "ADD_PROJECT", payload: newProject });
+                        projectFormDispatch({ type: "FORM_TOGGLE" });
+                        setProject(initialProject);
+                    }}
+                >
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Project name"
+                        value={project.name}
+                        onChange={({ target }) => setProject({ ...project, name: target.value })}
+                    />
+                    <textarea
+                        name="description"
+                        placeholder="Description"
+                        value={project.description}
+                        onChange={({ target }) => setProject({ ...project, description: target.value })}
+                    />
+                    <button type="submit">Create Project</button>
+                </form>
+            </div>
         </div>
     );
 };

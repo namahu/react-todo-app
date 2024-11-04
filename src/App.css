@@ -1,7 +1,8 @@
 #root {
+  --sidebar-width: 10vw;
   width: 100vw;
   display: grid;
-  grid-template-columns: 10vw 1fr;
+  grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-rows: 100vh;
 }
 
