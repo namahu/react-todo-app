@@ -6,22 +6,11 @@ const router = createBrowserRouter(
     [
         {
             path: "/",
-            element: (
-                <AppRoute />
-            ),
+            element: (<AppRoute />),
             children: [
-                {
-                    path: "/",
-                    element: (
-                        <TaskList />
-                    ),
-                },
-                {
-                    path: "/tasks/:projectId",
-                    element: (
-                        <TaskList />
-                    ),
-                }
+                { path: "/", element: <TaskList /> },
+                { path: "/tasks", element: <TaskList /> },
+                { path: "/tasks/:projectId", element: <TaskList /> }
             ]
         },
     ]

@@ -6,6 +6,7 @@ import styles from "../styles/task.module.css";
 import { useTaskContext } from "../context/task-context";
 import { useUpdateTask } from "../api/update-task";
 import { Project, useProjectContext } from "@/features/Project/context/project-context";
+import { useParams } from "react-router-dom";
 
 const createTaskPropertiesContents = (properties: TaskProperties, projects: Project[]) => {
     return Object.keys(properties).map((propertyKey, index) => {
@@ -24,9 +25,18 @@ const createTaskPropertiesContents = (properties: TaskProperties, projects: Proj
     });
 };
 
+const filterTasks = (tasks: Task[], projectId: string | undefined) => {
+    if (projectId === undefined) {
+        return tasks;
+    }
+    return tasks.filter(task => task.properties.project_id === projectId);
+}
+
 export const TaskList: React.FC = () => {
     const { tasks, taskDispatch } = useTaskContext();
     const { projects } = useProjectContext();
+
+    const { projectId } = useParams();
 
     const updateTask = useUpdateTask;
 
@@ -34,11 +44,13 @@ export const TaskList: React.FC = () => {
         return <div>Loading...</div>;
     }
 
+    const filterdTasks = filterTasks(tasks, projectId);
+
     return (
         <div className={styles.taskListContainer}>
             <CreateTask />
             <div className={styles.taskList}>
-                {tasks.filter(task => task.done === false).map((task) => (
+                {filterdTasks.filter(task => task.done === false).map((task) => (
                     <div key={task.id} className={styles["task-card"]}>
                         <div className={styles["task-title"]}>
                             <input

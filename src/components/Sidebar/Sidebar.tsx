@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useProjectContext, useProjectFormContext } from "@/features/Project/context/project-context";
 
 import styles from "./styles/sidebar.module.css";
+import { Link } from "react-router-dom";
 
 export const Sidebar: React.FC = () => {
     const { projects } = useProjectContext();
@@ -13,7 +14,9 @@ export const Sidebar: React.FC = () => {
     return (
         <div className="sidebar">
             <ul>
-                <li>All Tasks</li>
+                <li>
+                    <Link to="/tasks/">All Tasks</Link>
+                </li>
             </ul>
             <div
                 className={styles["project-list"]}
@@ -31,7 +34,11 @@ export const Sidebar: React.FC = () => {
                     </div>
                 }
                 <ul>
-                    {projects.map((project) => <li key={project.id}>{project.name}</li>)}
+                    {projects.map((project) => (
+                        <li key={project.id}>
+                            <Link to={"/tasks/" + project.id}>{project.name}</Link>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
