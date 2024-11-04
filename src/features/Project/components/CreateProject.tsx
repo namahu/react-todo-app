@@ -55,7 +55,10 @@ export const CreateProject: React.FC = () => {
                         onChange={({ target }) => setProject({ ...project, description: target.value })}
                     />
                     <div className={styles["formButton-container"]}>
-                        <button type="button">Cancel</button>
+                        <button type="button" onClick={() => {
+                            projectFormDispatch({ type: "FORM_TOGGLE" })
+                            setProject(initialProject)
+                        }}>Cancel</button>
                         <button type="submit">Create Project</button>
                     </div>
                 </form>
