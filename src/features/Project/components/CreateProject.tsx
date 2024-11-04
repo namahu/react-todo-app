@@ -54,9 +54,12 @@ export const CreateProject: React.FC = () => {
                         value={project.description}
                         onChange={({ target }) => setProject({ ...project, description: target.value })}
                     />
-                    <button type="submit">Create Project</button>
+                    <div className={styles["formButton-container"]}>
+                        <button type="button">Cancel</button>
+                        <button type="submit">Create Project</button>
+                    </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };

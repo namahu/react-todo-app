@@ -33,6 +33,12 @@
                 border-bottom: 1px solid #657565;
                 padding: 8px 16px;
             }
+
+            .formButton-container {
+                display: flex;
+                justify-content: space-between;
+                gap: 1em;
+            }
         }
     }
 }
