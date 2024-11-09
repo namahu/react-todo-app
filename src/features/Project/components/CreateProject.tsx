@@ -36,8 +36,8 @@ export const CreateProject: React.FC = () => {
                     onSubmit={async (event) => {
                         event.preventDefault();
                         const newProject: Project = { ...project, createdAt: new Date().getTime() };
-                        await handleOnSubmit(newProject);
-                        projectDispatch({ type: "ADD_PROJECT", payload: newProject });
+                        const response: Project = await handleOnSubmit(newProject);
+                        projectDispatch({ type: "ADD_PROJECT", payload: { ...newProject, id: response.id } });
                         projectFormDispatch({ type: "FORM_TOGGLE" });
                         setProject(initialProject);
                     }}
