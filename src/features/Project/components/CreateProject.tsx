@@ -4,6 +4,7 @@ import { useCreateProject } from "../api/create-project";
 import { Project, useProjectContext, useProjectFormContext } from "../context/project-context";
 
 import styles from "../styles/CreateProject.module.css";
+import { Button } from "@/components/ui/button/button";
 
 const initialProject: Project = {
     id: "",
@@ -55,14 +56,23 @@ export const CreateProject: React.FC = () => {
                         onChange={({ target }) => setProject({ ...project, description: target.value })}
                     />
                     <div className={styles["formButton-container"]}>
-                        <button type="button" onClick={() => {
-                            projectFormDispatch({ type: "FORM_TOGGLE" })
-                            setProject(initialProject)
-                        }}>Cancel</button>
-                        <button type="submit">Create Project</button>
+                        <Button
+                            type="button"
+                            onClick={() => {
+                                projectFormDispatch({ type: "FORM_TOGGLE" })
+                                setProject(initialProject)
+                            }}>
+                            Cancel
+                        </Button>
+                        <Button
+                            type={"submit"}
+                            className={"button-safety"}
+                        >
+                            Create Project
+                        </Button>
                     </div>
                 </form>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };

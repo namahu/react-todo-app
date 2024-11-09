@@ -5,6 +5,7 @@ import { useCreateTask } from "../api/create-task";
 import styles from "../styles/createTask.module.css";
 import { useTaskContext } from "../context/task-context";
 import { useProjectContext } from "@/features/Project/context/project-context";
+import { Button } from "@/components/ui/button/button";
 
 const initialTask: Task = {
     title: "",
@@ -34,13 +35,19 @@ export const CreateTask: React.FC = () => {
 
     if (!isOpen) {
         return (
-            <button onClick={() => setIsOpen(!isOpen)}>Add Task</button>
+            <Button
+                className={"button-safety"}
+                disabled={false}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                New Task
+            </Button>
         );
     }
 
     return (
         <>
-            <button disabled>Add Task</button>
+            <Button disabled>New Task </Button>
             <div className={styles.createTaskContainer}>
                 <form
                     className={styles.taskCreateForm}
@@ -93,8 +100,8 @@ export const CreateTask: React.FC = () => {
                         </div>
                     </div>
                     <div className={styles.formButtonContainer}>
-                        <button type="button" className={styles.button_cancel} onClick={() => setIsOpen(!isOpen)}>Cancel</button>
-                        <button type="submit" className={styles.button_submit}>Add Task</button>
+                        <Button type={"button"} onClick={() => setIsOpen(!isOpen)}>Cancel</Button>
+                        <Button type={"submit"} className={"button-safety"}>Add Task</Button>
                     </div>
                 </form>
             </div>
