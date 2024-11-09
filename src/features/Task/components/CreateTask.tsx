@@ -54,8 +54,8 @@ export const CreateTask: React.FC = () => {
                     onSubmit={async (event) => {
                         event.preventDefault();
                         const newTask: Task = { ...task, createdAt: new Date().getTime() };
-                        await handleOnSubmit(newTask);
-                        taskDispatch({ type: "add", payload: newTask });
+                        const response = await handleOnSubmit(newTask);
+                        taskDispatch({ type: "add", payload: { ...newTask, id: response.id } });
                         setTask(initialTask);
                         setIsOpen(!isOpen);
                     }}
