@@ -1,6 +1,7 @@
 .taskListContainer {
     height: 100vh;
     background-color: #fffffb;
+    grid-area: main;
 }
 
 .taskListContainer>button {

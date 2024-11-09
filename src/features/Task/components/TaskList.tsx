@@ -1,7 +1,5 @@
 import React from "react";
 
-import { CreateTask } from "./CreateTask";
-
 import styles from "../styles/task.module.css";
 import { useTaskContext } from "../context/task-context";
 import { useUpdateTask } from "../api/update-task";
@@ -48,7 +46,6 @@ export const TaskList: React.FC = () => {
 
     return (
         <div className={styles.taskListContainer}>
-            <CreateTask />
             <div className={styles.taskList}>
                 {filterdTasks.filter(task => task.done === false).map((task) => (
                     <div key={task.id} className={styles["task-card"]}>

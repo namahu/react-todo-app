@@ -12,7 +12,7 @@ export const Sidebar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <div className="sidebar">
+        <div className={styles.sidebar}>
             <ul>
                 <li>
                     <Link to="/tasks/">All Tasks</Link>

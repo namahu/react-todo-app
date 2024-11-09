@@ -1,9 +1,14 @@
 #root {
   --sidebar-width: 10vw;
+  --header-height: 10vh;
   width: 100vw;
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
-  grid-template-rows: 100vh;
+  grid-template-rows: var(--header-height) 1fr;
+
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
 }
 
 li {
@@ -13,6 +18,7 @@ li {
 main {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - var(--header-height));
   gap: 1em;
   overflow: scroll;
 }
