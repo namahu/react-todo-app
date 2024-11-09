@@ -1,0 +1,14 @@
+.loginForm-container {
+    width: 24vw;
+    height: 24vh;
+    background-color: aliceblue;
+
+    form {
+        height: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+}
