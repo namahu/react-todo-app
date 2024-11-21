@@ -15,7 +15,7 @@ export const Sidebar: React.FC = () => {
         <div className={styles.sidebar}>
             <ul>
                 <li>
-                    <Link to="/tasks/">All Tasks</Link>
+                    <Link to="/app/tasks/">All Tasks</Link>
                 </li>
             </ul>
             <div
@@ -36,7 +36,7 @@ export const Sidebar: React.FC = () => {
                 <ul>
                     {projects.map((project) => (
                         <li key={project.id}>
-                            <Link to={"/tasks/" + project.id}>{project.name}</Link>
+                            <Link to={"/app/tasks/" + project.id}>{project.name}</Link>
                         </li>
                     ))}
                 </ul>
