@@ -54,7 +54,7 @@ export const TaskList: React.FC = () => {
                                 type="checkbox"
                                 defaultChecked={task.done}
                                 onChange={async () => {
-                                    const response = await updateTask(task.id, { done: !task.done });
+                                    const response = await updateTask<Pick<Task, "done" | "completedAt">>(task.id, { done: !task.done, completedAt: new Date().getTime() });
                                     console.log(response);
                                     taskDispatch({ type: "update", payload: { ...task, done: !task.done } });
                                 }}
