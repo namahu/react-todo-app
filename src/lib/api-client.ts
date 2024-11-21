@@ -17,7 +17,7 @@ export const api = {
         });
         return await response.json();
     },
-    update: async (endpoint: string, id: string, updateProperty: { [key: string]: string | boolean }) => {
+    update: async <T>(endpoint: string, id: string, updateProperty: T) => {
         const response = await fetch(`${baseUrl}${endpoint}/${id}`, {
             method: "PATCH",
             headers: {
