@@ -6,6 +6,7 @@ import styles from "../styles/createTask.module.css";
 import { useTaskContext } from "../context/task-context";
 import { useProjectContext } from "@/features/Project/context/project-context";
 import { Button } from "@/components/ui/button/button";
+import { useFirebase } from "@/lib/firebase/context/firebsae-context";
 
 const initialTask: Task = {
     title: "",
@@ -17,6 +18,9 @@ const initialTask: Task = {
     updatedAt: null,
     completedAt: null,
     deletedAt: null,
+    user: {
+        id: null,
+    },
     properties: {
         startDate: "",
         dueDate: "",
@@ -27,6 +31,9 @@ const initialTask: Task = {
 export const CreateTask: React.FC = () => {
     const { taskDispatch } = useTaskContext();
     const { projects } = useProjectContext();
+    const { state } = useFirebase();
+
+    console.log(state);
 
     const [task, setTask] = useState<Task>(initialTask);
     const [isOpen, setIsOpen] = useState(false);
@@ -53,9 +60,20 @@ export const CreateTask: React.FC = () => {
                     className={styles.taskCreateForm}
                     onSubmit={async (event) => {
                         event.preventDefault();
-                        const newTask: Task = { ...task, createdAt: new Date().getTime() };
+                        const newTask: Task = {
+                            ...task,
+                            createdAt: new Date().getTime(),
+                            user: {
+                                id: state.user?.uid ?? null,
+                            },
+                        };
                         const response = await handleOnSubmit(newTask);
-                        taskDispatch({ type: "add", payload: { ...newTask, id: response.id } });
+                        taskDispatch({
+                            type: "add", payload: {
+                                ...newTask,
+                                id: response.id
+                            }
+                        });
                         setTask(initialTask);
                         setIsOpen(!isOpen);
                     }}

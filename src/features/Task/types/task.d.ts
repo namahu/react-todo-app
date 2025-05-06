@@ -14,5 +14,8 @@ declare type Task = {
     updatedAt: number | null;
     completedAt: number | null;
     deletedAt: number | null;
+    user: {
+        id: string | null;
+    };
     properties: TaskProperties
 };
