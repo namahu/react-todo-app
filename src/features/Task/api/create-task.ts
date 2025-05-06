@@ -1,8 +1,11 @@
-import { api } from "@/lib/api-client";
+import { firestore } from "@/lib/firebase/firestore/firestore";
+import { DocumentData, DocumentReference } from "firebase/firestore";
 import { nanoid } from "nanoid";
 
-export const useCreateTask = (data: Task): Promise<Task> => {
+export const useCreateTask = (
+    data: Task
+): Promise<DocumentReference<any, DocumentData>> => {
     const id = "td-" + nanoid();
     const newTaskWithId = { ...data, id };
-    return api.post("tasks", newTaskWithId);
+    return firestore.add("tasks", newTaskWithId);
 };
