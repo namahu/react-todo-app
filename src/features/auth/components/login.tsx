@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase/config";
 import styles from "../styles/login.module.css";
-
+import { useFirebase } from "@/lib/firebase/context/firebsae-context";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router";
 export const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
+    const { auth } = useFirebase();
+    const navigate = useNavigate();
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, password);
+            navigate("/app");
         } catch (error) {
             setError("ログインに失敗しました。メールアドレスとパスワードを確認してください。");
         }
