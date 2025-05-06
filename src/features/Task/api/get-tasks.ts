@@ -1,6 +1,6 @@
-import { api } from "@/lib/api-client";
 import { useEffect, useReducer } from "react";
 import { taskReducer } from "../reducer/task-reducer";
+import { firestore } from "@/lib/firebase/firestore/firestore";
 
 export const useAllTasks = () => {
     const [ tasks, dispatch ] = useReducer(taskReducer([]), []);
@@ -10,8 +10,9 @@ export const useAllTasks = () => {
 
         const getTasks = async () => {
             try {
-                const response = await api.get("tasks");
-                dispatch({ type: "fetch-success", payload: response });
+                const response = await firestore.getAll("tasks");
+                console.log(response);
+                dispatch({ type: "fetch-success", payload: response as Task[] });
             } catch (error) {
                 console.error(error);
             }
