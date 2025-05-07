@@ -12,7 +12,6 @@ const initialTask: Task = {
     title: "",
     description: "",
     done: false,
-    id: "",
     deleted: false,
     createdAt: null,
     updatedAt: null,
@@ -69,7 +68,8 @@ export const CreateTask: React.FC = () => {
                         console.log(response.id);
                         taskDispatch({
                             type: "add", payload: {
-                                ...newTask
+                                ...newTask,
+                                id: response.id
                             }
                         });
                         setTask(initialTask);
