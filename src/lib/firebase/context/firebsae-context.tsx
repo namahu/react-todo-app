@@ -57,8 +57,6 @@ export const FirebaseContextProvider: React.FC<{ children: ReactNode }> = ({ chi
         return () => unsubscribe();
     }, []);
 
-    console.log(state);
-
     return (
         <FirebaseContext.Provider value={{ state, dispatch, auth, db }}>
             {children}
