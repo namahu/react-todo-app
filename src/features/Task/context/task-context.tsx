@@ -2,12 +2,14 @@ import React, { createContext, useContext } from "react";
 
 import { useAllTasks } from "../api/get-tasks";
 import { TaskDispatchAction } from "../reducer/task-reducer";
+import { useFirebase } from "@/lib/firebase/context/firebsae-context";
 
 const TaskContext = createContext<Task[] | null>(null);
 const TaskDispatchContext = createContext<React.Dispatch<TaskDispatchAction>>(() => { });
 
 export const TaskContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const { tasks, dispatch } = useAllTasks();
+    const { state } = useFirebase();
+    const { tasks, dispatch } = useAllTasks(state.user?.uid);
 
     return (
         <TaskContext.Provider value={tasks}>

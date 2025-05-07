@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../config";
 
 export const firestore = {
@@ -10,8 +10,9 @@ export const firestore = {
         const docRef = doc(collection(db, collectionName), id);
         return docRef;
     },
-    getAll: async (collectionName: string) => {
-        const querySnapshot = await getDocs(collection(db, collectionName));
+    getAll: async (collectionName: string, userId: string) => {
+        const q = query(collection(db, collectionName), where("user.id", "==", userId));
+        const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((doc) => doc.data());
     },
 };
