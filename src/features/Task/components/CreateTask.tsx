@@ -33,8 +33,6 @@ export const CreateTask: React.FC = () => {
     const { projects } = useProjectContext();
     const { state } = useFirebase();
 
-    console.log(state);
-
     const [task, setTask] = useState<Task>(initialTask);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -68,10 +66,10 @@ export const CreateTask: React.FC = () => {
                             },
                         };
                         const response = await handleOnSubmit(newTask);
+                        console.log(response.id);
                         taskDispatch({
                             type: "add", payload: {
-                                ...newTask,
-                                id: response.id
+                                ...newTask
                             }
                         });
                         setTask(initialTask);
