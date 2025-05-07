@@ -2,9 +2,9 @@ import React from "react";
 
 import styles from "../styles/task.module.css";
 import { useTaskContext } from "../context/task-context";
-import { useUpdateTask } from "../api/update-task";
 import { Project, useProjectContext } from "@/features/Project/context/project-context";
 import { useParams } from "react-router-dom";
+import { firestore } from "@/lib/firebase/firestore/firestore";
 
 const createTaskPropertiesContents = (properties: TaskProperties, projects: Project[]) => {
     return Object.keys(properties).map((propertyKey, index) => {
@@ -36,8 +36,6 @@ export const TaskList: React.FC = () => {
 
     const { projectId } = useParams();
 
-    const updateTask = useUpdateTask;
-
     if (tasks === null) {
         return <div>Loading...</div>;
     }
@@ -54,8 +52,11 @@ export const TaskList: React.FC = () => {
                                 type="checkbox"
                                 defaultChecked={task.done}
                                 onChange={async () => {
-                                    const response = await updateTask<Pick<Task, "done" | "completedAt">>(task.id, { done: !task.done, completedAt: new Date().getTime() });
-                                    console.log(response);
+                                    await firestore.update(
+                                        "tasks",
+                                        task.id as string,
+                                        { dane: !task.done, completedAt: new Date().getTime() }
+                                    );
                                     taskDispatch({ type: "update", payload: { ...task, done: !task.done } });
                                 }}
                             />

@@ -15,13 +15,18 @@ export const firestore = {
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((doc) => {
             return {
+                ...doc.data(),
                 id: doc.id,
-                ...doc.data()
             }
         });
     },
     update: async (collectionName: string, id: string, data: any) => {
-        const docRef = doc(collection(db, collectionName), id);
-        await updateDoc(docRef, data);
+        try {
+            const docRef = doc(collection(db, collectionName), id);
+            await updateDoc(docRef, data);
+        } catch (error) {
+            console.error('ドキュメントの更新に失敗しました:', error);
+            throw new Error('ドキュメントの更新に失敗しました');
+        }
     }
 };
