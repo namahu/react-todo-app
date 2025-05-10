@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import { useProjectContext, useProjectFormContext } from "@/features/Project/context/project-context";
+import { useProjectFormContext } from "@/features/Project/context/project-context";
 
 import styles from "./styles/sidebar.module.css";
 import { Link } from "react-router-dom";
+import { ProjectList } from "@/features/Project/components/ProjectList";
 
 export const Sidebar: React.FC = () => {
-    const { projects } = useProjectContext();
     const { projectFormDispatch } = useProjectFormContext();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,13 +33,7 @@ export const Sidebar: React.FC = () => {
                         >+</span>
                     </div>
                 }
-                <ul>
-                    {projects.map((project) => (
-                        <li key={project.id}>
-                            <Link to={"/app/tasks/" + project.id}>{project.name}</Link>
-                        </li>
-                    ))}
-                </ul>
+                <ProjectList />
             </div>
         </div>
     );
