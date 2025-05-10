@@ -1,9 +1,9 @@
-import { api } from "@/lib/api-client";
-import { nanoid } from "nanoid";
+import { DocumentData, DocumentReference } from "firebase/firestore";
 import { Project } from "../context/project-context";
+import { firestore } from "@/lib/firebase/firestore/firestore";
 
-export const useCreateProject = (data: Project): Promise<Project> => {
-    const id = "pj-" + nanoid();
-    const newProjectWithId = { ...data, id };
-    return api.post("projects", newProjectWithId);
+export const useCreateProject = (
+    data: Project
+): Promise<DocumentReference<any, DocumentData>> => {
+    return firestore.add("projects", data);
 }
