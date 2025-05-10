@@ -65,7 +65,6 @@ export const CreateTask: React.FC = () => {
                             },
                         };
                         const response = await handleOnSubmit(newTask);
-                        console.log(response.id);
                         taskDispatch({
                             type: "add", payload: {
                                 ...newTask,
