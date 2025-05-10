@@ -3,13 +3,16 @@ import React, { createContext, Reducer } from "react";
 import { useAllProjects } from "../api/get-projects";
 
 export type Project = {
-    id: string;
+    id?: string;
     name: string;
     description: string;
     deleted: boolean;
     createdAt: number | null;
     updatedAt: number | null;
     deletedAt: number | null;
+    user: {
+        id: string | null;
+    }
 };
 
 export type ProjectDispathAction =
