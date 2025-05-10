@@ -5,20 +5,25 @@ import { Project, useProjectContext, useProjectFormContext } from "../context/pr
 
 import styles from "../styles/CreateProject.module.css";
 import { Button } from "@/components/ui/button/button";
+import { useFirebase } from "@/lib/firebase/context/firebsae-context";
 
 const initialProject: Project = {
-    id: "",
     name: "",
     description: "",
     deleted: false,
     createdAt: null,
     updatedAt: null,
     deletedAt: null,
+    user: {
+        id: null,
+    }
 };
 
 export const CreateProject: React.FC = () => {
     const { projectDispatch } = useProjectContext();
     const { projectFormState, projectFormDispatch } = useProjectFormContext();
+
+    const { state } = useFirebase();
 
     const [project, setProject] = useState<Project>(initialProject);
 
@@ -35,8 +40,15 @@ export const CreateProject: React.FC = () => {
                 <form
                     onSubmit={async (event) => {
                         event.preventDefault();
-                        const newProject: Project = { ...project, createdAt: new Date().getTime() };
-                        const response: Project = await handleOnSubmit(newProject);
+                        const newProject: Project = {
+                            ...project,
+                            createdAt: new Date().getTime(),
+                            user: {
+                                id: state.user?.uid ?? null,
+                            },
+                        };
+                        const response = await handleOnSubmit(newProject);
+                        console.log(response);
                         projectDispatch({ type: "ADD_PROJECT", payload: { ...newProject, id: response.id } });
                         projectFormDispatch({ type: "FORM_TOGGLE" });
                         setProject(initialProject);
