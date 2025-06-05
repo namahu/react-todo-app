@@ -28,7 +28,6 @@ main::-webkit-scrollbar {
 }
 
 main div {
-  background-color: aliceblue;
   border-radius: 8px;
   padding: 8px;
 }

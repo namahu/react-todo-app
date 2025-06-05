@@ -47,8 +47,9 @@ export const TaskList: React.FC = () => {
             <div className={styles.taskList}>
                 {filterdTasks.filter(task => task.done === false).map((task) => (
                     <div key={task.id} className={styles["task-card"]}>
-                        <div className={styles["task-title"]}>
+                        <div className={styles["task-header"]}>
                             <input
+                                key={task.id}
                                 type="checkbox"
                                 defaultChecked={task.done}
                                 onChange={async () => {
@@ -60,12 +61,16 @@ export const TaskList: React.FC = () => {
                                     taskDispatch({ type: "update", payload: { ...task, done: !task.done } });
                                 }}
                             />
-                            <label>{task.title}</label>
                         </div>
-                        <div key={task.id} className={styles["task-properties"]}>
-                            {createTaskPropertiesContents(task.properties, projects)}
-                            <span>{task.properties.startDate}</span>
-                            <span>{task.properties.dueDate}</span>
+                        <div className="task-body" onClick={() => { console.log(task.id) }}>
+                            <div className={styles["task-title"]}>
+                                <label>{task.title}</label>
+                            </div>
+                            <div key={task.id} className={styles["task-properties"]}>
+                                {createTaskPropertiesContents(task.properties, projects)}
+                                <span>{task.properties.startDate}</span>
+                                <span>{task.properties.dueDate}</span>
+                            </div>
                         </div>
                     </div>
                 ))}
