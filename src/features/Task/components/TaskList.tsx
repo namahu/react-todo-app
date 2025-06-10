@@ -5,6 +5,7 @@ import { useTaskContext } from "../context/task-context";
 import { Project, useProjectContext } from "@/features/Project/context/project-context";
 import { useParams } from "react-router-dom";
 import { firestore } from "@/lib/firebase/firestore/firestore";
+import { CreateTask } from "./CreateTask";
 
 const createTaskPropertiesContents = (properties: TaskProperties, projects: Project[]) => {
     return Object.keys(properties).map((propertyKey, index) => {
@@ -43,36 +44,39 @@ export const TaskList: React.FC = () => {
     const filterdTasks = filterTasks(tasks, projectId);
 
     return (
-        <div className={styles.taskListContainer}>
-            <div className={styles.taskList}>
-                {filterdTasks.filter(task => task.done === false).map((task) => (
-                    <div key={task.id} className={styles["task-card"]}>
-                        <div className={styles["task-header"]}>
-                            <input
-                                key={task.id}
-                                type="checkbox"
-                                defaultChecked={task.done}
-                                onChange={async () => {
-                                    await firestore.update(
-                                        "tasks",
-                                        task.id as string,
-                                        { dane: !task.done, completedAt: new Date().getTime() }
-                                    );
-                                    taskDispatch({ type: "update", payload: { ...task, done: !task.done } });
-                                }}
-                            />
-                        </div>
-                        <div className="task-body" onClick={() => { console.log(task.id) }}>
-                            <div className={styles["task-title"]}>
-                                <label>{task.title}</label>
+        <>
+            <CreateTask />
+            <div className={styles.taskListContainer}>
+                <div className={styles.taskList}>
+                    {filterdTasks.filter(task => task.done === false).map((task) => (
+                        <div key={task.id} className={styles["task-card"]}>
+                            <div className={styles["task-header"]}>
+                                <input
+                                    key={task.id}
+                                    type="checkbox"
+                                    defaultChecked={task.done}
+                                    onChange={async () => {
+                                        await firestore.update(
+                                            "tasks",
+                                            task.id as string,
+                                            { dane: !task.done, completedAt: new Date().getTime() }
+                                        );
+                                        taskDispatch({ type: "update", payload: { ...task, done: !task.done } });
+                                    }}
+                                />
                             </div>
-                            <div key={task.id} className={styles["task-properties"]}>
-                                {createTaskPropertiesContents(task.properties, projects)}
+                            <div className="task-body" onClick={() => { console.log(task.id) }}>
+                                <div className={styles["task-title"]}>
+                                    <label>{task.title}</label>
+                                </div>
+                                <div key={task.id} className={styles["task-properties"]}>
+                                    {createTaskPropertiesContents(task.properties, projects)}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
