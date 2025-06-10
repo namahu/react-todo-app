@@ -39,19 +39,23 @@ export const CreateTask: React.FC = () => {
 
     if (!isOpen) {
         return (
-            <Button
-                className={"button-safety"}
-                disabled={false}
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                New Task
-            </Button>
+            <div className={styles.newTaskButtonContainer}>
+                <Button
+                    className={"button-safety"}
+                    disabled={false}
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    New Task
+                </Button>
+            </div>
         );
     }
 
     return (
         <>
-            <Button disabled>New Task </Button>
+            <div className={styles.newTaskButtonContainer}>
+                <Button disabled>New Task </Button>
+            </div>
             <div className={styles.createTaskContainer}>
                 <form
                     className={styles.taskCreateForm}
