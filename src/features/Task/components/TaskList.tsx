@@ -68,8 +68,6 @@ export const TaskList: React.FC = () => {
                             </div>
                             <div key={task.id} className={styles["task-properties"]}>
                                 {createTaskPropertiesContents(task.properties, projects)}
-                                <span>{task.properties.startDate}</span>
-                                <span>{task.properties.dueDate}</span>
                             </div>
                         </div>
                     </div>
