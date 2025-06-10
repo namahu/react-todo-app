@@ -20,7 +20,6 @@ main {
   flex-direction: column;
   height: calc(100vh - var(--header-height));
   gap: 1em;
-  overflow: scroll;
 }
 
 main::-webkit-scrollbar {
@@ -29,5 +28,4 @@ main::-webkit-scrollbar {
 
 main div {
   border-radius: 8px;
-  padding: 8px;
 }
