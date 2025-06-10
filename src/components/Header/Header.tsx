@@ -1,7 +1,6 @@
 import React from 'react';
 
 import styles from "./styles/header.module.css";
-import { CreateTask } from '@/features/Task/components/CreateTask';
 import { Button } from '../ui/button/button';
 import { signOut } from 'firebase/auth';
 import { useFirebase } from '@/lib/firebase/context/firebsae-context';
@@ -19,7 +18,6 @@ export const Header: React.FC = () => {
         <header className={styles.header}>
             <div className={styles["header-menu"]}>
                 <Button onClick={handleLogout}>ログアウト</Button>
-                <CreateTask />
             </div>
         </header>
     );
